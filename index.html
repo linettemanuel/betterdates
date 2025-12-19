@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetterDates</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --bg-color: #efebe5;
+            --card-bg: #f7f2ea;
+            --text-main: #000000;
+            --text-muted: rgba(0, 0, 0, 0.6);
+            --border-radius: 24px;
+            --container-width: 1200px;
+            --font-main: 'Inter', sans-serif;
+            --font-serif: 'Source Serif 4', serif;
+            
+            /* Spacing System */
+            --section-spacing: 100px;
+            --mobile-side-padding: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; border-radius: inherit; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--mobile-side-padding);
+            width: 100%;
+        }
+
+        .btn {
+            background-color: var(--text-main);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+        .btn:hover { opacity: 0.85; }
+
+        .btn-tag {
+            background: rgba(0,0,0,0.06); 
+            color: black; 
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .italic-serif {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .section-padding { padding: var(--section-spacing) 0; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 16px var(--mobile-side-padding);
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(239, 235, 229, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            background: rgba(255,255,255,0.6);
+            padding: 6px 8px;
+            border-radius: 50px;
+            margin-right: 16px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.7;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        .nav-links a:hover { opacity: 1; background: rgba(255,255,255,0.8); }
+
+        #lang-toggle {
+            background: none;
+            border: 1px solid rgba(0,0,0,0.1);
+            padding: 8px 0;
+            border-radius: 50%;
+            font-family: var(--font-main);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        #lang-toggle:hover { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.3); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 180px 24px 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: clamp(42px, 6vw, 84px);
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 2vw, 22px);
+            color: var(--text-muted);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* --- BENTO GRID (Services) --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover { transform: translateY(-4px); }
+
+        .card h3 { 
+            font-size: 22px; 
+            margin-bottom: 16px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        
+        .card h4 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .card p { 
+            color: var(--text-muted); 
+            font-size: 16px; 
+            margin-bottom: 16px;
+        }
+
+        /* --- MISSION SECTION --- */
+        .mission-wrapper {
+            padding: 0 var(--mobile-side-padding);
+        }
+        
+        .mission {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 80px;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .mission h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+        }
+
+        .mission-text p {
+            margin-bottom: 24px;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        /* --- CASE STUDIES (Reality Check & Promises) --- */
+        .case-study {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-bottom: 120px;
+        }
+        .case-study:last-child { margin-bottom: 0; }
+
+        .case-study.reversed { direction: rtl; }
+        .case-study.reversed .cs-content { direction: ltr; }
+
+        .cs-content h2 {
+            font-size: clamp(32px, 4vw, 56px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+        }
+        
+        .cs-content p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .cs-image {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .phone-mockup {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 1/1;
+            background: #000;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            border: 8px solid #f0f0f0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .phone-mockup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        /* --- COMPARISON --- */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 60px;
+        }
+
+        .comp-card {
+            background: var(--card-bg);
+            padding: 48px;
+            border-radius: var(--border-radius);
+            text-align: left;
+        }
+
+        .comp-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+        .comp-list li b { color: var(--text-main); font-weight: 500; }
+        .comp-icon { width: 24px; height: 24px; flex-shrink: 0; margin-top: 2px;}
+
+        /* --- FAQ --- */
+        .faq-item {
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 32px 16px; /* Added side padding for mobile */
+        }
+        .faq-item:first-child { border-top: 1px solid rgba(0,0,0,0.1); }
+        
+        details > summary {
+            list-style: none;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+        details > summary::after { content: '+'; font-size: 28px; font-weight: 300; }
+        details[open] > summary::after { content: '-'; }
+        
+        details p {
+            margin-top: 12px;
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.6;
+            padding-bottom: 12px;
+        }
+
+        /* --- CONTACT CTA --- */
+        .cta-box {
+            background: white;
+            padding: 100px 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 80px 24px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin-top: 40px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+        .footer-col h4 { margin-bottom: 24px; font-size: 18px; }
+        .footer-col a { 
+            display: block; 
+            margin-bottom: 14px; 
+            color: var(--text-muted); 
+            font-size: 15px;
+        }
+        .footer-col a:hover { color: var(--text-main); }
+
+        /* ========================================= */
+        /* === RESPONSIVE MEDIA QUERIES === */
+        /* ========================================= */
+
+        /* Tablet Portrait & Mobile Landscape (max-width: 900px) */
+        @media (max-width: 900px) {
+            :root { 
+                --section-spacing: 80px;
+                --mobile-side-padding: 32px; /* Increased for breathing room */
+            }
+            
+            .nav-links { display: none; } /* Hide links, show CTA & Toggle */
+            
+            .hero { padding-top: 140px; padding-bottom: 40px; }
+            
+            /* Mission Section - Fix padding */
+            .mission {
+                padding: 60px 40px; /* More padding inside the white box */
+                gap: 40px;
+                grid-template-columns: 1fr; /* Stack mission text */
+            }
+
+            .case-study, .comparison-grid {
+                grid-template-columns: 1fr;
+                gap: 60px; /* Space between content and image within sections */
+            }
+            
+            /* Fix stacking order for reversed case study on mobile */
+            .case-study.reversed { direction: ltr; }
+            .case-study.reversed .cs-content { direction: ltr; }
+            
+            /* Fix "Collated to sides" issue */
+            .cs-content {
+                padding: 0 12px; /* Add side padding to text content */
+            }
+
+            .cs-image { padding: 40px; }
+            
+            .bento-grid {
+                grid-template-columns: 1fr; /* 1 column for service cards */
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr; /* 2 columns for footer */
+                gap: 40px;
+            }
+        }
+
+        /* Mobile Phones (max-width: 600px) */
+        @media (max-width: 600px) {
+            :root { 
+                --section-spacing: 70px; /* Balanced spacing to avoid jumps */
+                --mobile-side-padding: 24px;
+            }
+
+            .hero { padding-top: 120px; }
+            h1 { font-size: 42px; }
+            
+            /* Mission Box Fix */
+            .mission { 
+                padding: 60px 32px; /* Generous internal padding */
+            }
+            
+            .cs-content h2 { font-size: 36px; }
+            .cs-image { padding: 32px 20px; }
+            
+            .comp-card { padding: 32px 24px; }
+            
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            
+            .cta-box { padding: 60px 24px; }
+            .cta-box h2 { font-size: 36px; }
+            
+            /* Ensure buttons don't overflow */
+            .btn { width: 100%; text-align: center; }
+            .nav-right .btn { width: auto; font-size: 13px; padding: 10px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg>
+            BetterDates
+        </div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a href="#home" data-i18n="nav_home">Home</a>
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#services" data-i18n="nav_services">Services</a>
+                <a href="#blog" data-i18n="nav_blog">Blog</a>
+            </div>
+            <button id="lang-toggle">CS</button>
+            <a href="#contact" class="btn" data-i18n="nav_cta">Join waitlist</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1 data-i18n="hero_title">
+            Dating done <span class="italic-serif">better.</span>
+        </h1>
+        <p class="hero-subtitle" data-i18n="hero_subtitle">
+            Forget meaningless swiping. Get to know yourself better. Connect with genuine people and actually <i>enjoy</i> the process of finding your person.
+        </p>
+        <a href="#contact" class="btn" data-i18n="hero_cta">Join waitlist</a>
+
+        <div style="margin-top: 40px; position: relative; width: 100%;">
+            <img src="https://placehold.co/1000x600/black/FFF?text=Sexy+placeholder+for+you+and+your+lovely+date." style="border-radius: 24px; object-fit: cover; aspect-ratio: 16/9;" alt="Hero Video">
+        </div>
+    </section>
+
+    <section id="services" class="container section-padding">
+        <h2 style="text-align: center; font-size: clamp(32px, 4vw, 48px); margin-bottom: 40px; padding: 0 10px;" data-i18n="services_title">
+            Let's be honest. Dating apps <span class="italic-serif">suck</span>.
+        </h2>
+        
+        <div class="bento-grid">
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="s1_title"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> You've tried all of the apps.</h3>
+                <p data-i18n="s1_desc">You've got stuck in a loop of endless swiping based on photo and creating meaningless connections. Every hour you spend there feels wasted.</p>
+            </div>
+            
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="s2_title"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> Your are tired of endless texting.</h3>
+                <p data-i18n="s2_desc">"Hey, what are you up to?" is a sentence you don't want to read ever again. Every text message only makes you feel more drained. </p>
+            </div>
+            
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="s3_title"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> You are starting to lose hope.</h3>
+                <p data-i18n="s3_desc">It's seems like everyone around you is finding life-partners, getting married and you can't even get a chance for a normal date.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="mission-wrapper">
+        <div class="mission">
+            <h2 data-i18n="mission_title">We've created a <span class="italic-serif">dating experience</span> that doesn't make you want to <span class="italic-serif">quit</span></h2>
+            <div class="mission-text">
+                <p data-i18n="mission_p1"><b>Our mission is simple: </b>Make the journey of finding your person something you look back on fondly. Not something that drains your soul.</p>
+                <p data-i18n="mission_p2">We can't guarantee you'll meet the love of your life. No one can.</p>
+                <p data-i18n="mission_p3">But we can guarantee that process will build you up, not tear you down and every step will be meaningful.</p>
+                <p style="color: #000;" data-i18n="mission_bold"><b>Because looking for love shouldn't make you hate dating.</b></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container section-padding">
+        <div class="case-study">
+            <div class="cs-content">
+                <div class="btn-tag" data-i18n="reality_tag">Reality check</div>
+                <h2 data-i18n="rc1_title">70% of users report feeling more <span class="italic-serif">lonely</span> after using dating apps </h2>
+                <p style="color: var(--text-muted); margin-top: 16px;" data-i18n="rc1_desc">On avarage people spends 90 minutes per day swiping with only 1% chance of meeting someone.</p>
+            </div>
+            <div class="cs-image">
+                <div class="phone-mockup">
+                    <img src="https://placehold.co/500x500/000/FFF?text=You+are+not+alone." alt="Phone Mockup">
+                </div>
+            </div>
+        </div>
+
+        <div class="case-study reversed">
+            <div class="cs-content">
+                <div class="btn-tag" data-i18n="reality_tag">Reality check</div>
+                <h2 data-i18n="rc2_title">Only 10% of matches lead to actual <span class="italic-serif">conversations</span></h2>
+                <p style="color: var(--text-muted); margin-top: 16px;" data-i18n="rc2_desc">When they actually meet someone, they're meeting based on photos. Not compatibility. No values, just appearence.</p>
+            </div>
+            <div class="cs-image">
+                <div class="phone-mockup">
+                    <img src="https://placehold.co/500x500/000/FFF?text=Let's+try+better." alt="Phone Mockup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container section-padding" style="text-align: center;">
+        <h2 style="font-size: clamp(32px, 4vw, 48px); margin-bottom: 40px;" data-i18n="comp_title">Why choose BetterDates over <span class="italic-serif">dating app</span>?</h2>
+        
+        <div class="comparison-grid">
+            <div class="comp-card">
+                <h3 style="margin-bottom: 24px; color: var(--text-muted);" data-i18n="comp_apps_title">Dating Apps</h3>
+                <ul class="comp-list">
+                    <li data-i18n="comp_app_1"><span class="comp-icon">✖</span> You meet based on looks</li>
+                    <li data-i18n="comp_app_2"><span class="comp-icon">✖</span> Leave you feeling drained</li>
+                    <li data-i18n="comp_app_3"><span class="comp-icon">✖</span> Optimized for one-night stands</li>
+                    <li data-i18n="comp_app_4"><span class="comp-icon">✖</span> Lead to endless texting</li>
+                </ul>
+            </div>
+
+            <div class="comp-card" style="background: white; border: 1px solid rgba(0,0,0,0.1);">
+                <h3 style="margin-bottom: 24px;" data-i18n="comp_bd_title">BetterDates Program</h3>
+                <ul class="comp-list">
+                    <li data-i18n="comp_bd_1"><span class="comp-icon">✔</span> <b>You meet based on values</b></li>
+                    <li data-i18n="comp_bd_2"><span class="comp-icon">✔</span> <b>Build you up and give you clarity</b></li>
+                    <li data-i18n="comp_bd_3"><span class="comp-icon">✔</span> <b>For people seeking genuine partnership</b></li>
+                    <li data-i18n="comp_bd_4"><span class="comp-icon">✔</span> <b>Leads to real-life connection</b></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="container section-padding">
+        <h2 style="text-align: center; font-size: clamp(32px, 4vw, 48px); margin-bottom: 40px;" data-i18n="hiw_title">
+            How it <span class="italic-serif">works</span>?
+        </h2>
+        
+        <div class="bento-grid">
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="phase1_header"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 1</h3>
+                <h4 data-i18n="phase1_title">Deep Self-Discovery</h4>
+                <p data-i18n="phase1_desc">Answer anonymously 10 carefully designed questions and evaluate answers of others every day for 7 days. These aren't small talk. They're about your values, your past, what you want, how you love, what scares you, what lights you up.</p>
+                <div style="margin-top: 12px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 12px;">
+                    <p style="margin-bottom: 4px;" data-i18n="phase1_inv"><b>Your investment:</b> 20 minutes a day</p>
+                    <p data-i18n="phase1_get"><b>What you get:</b> Clarity about yourself.</p>
+                </div>
+            </div>
+            
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="phase2_header"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 2</h3>
+                <h4 data-i18n="phase2_title">Online Voice Connection</h4>
+                <p data-i18n="phase2_desc">Meet your 5 most compatible matches in a facilitated online evening. Cameras off, voices on. No pressure about how you look. Just real conversation, lighthearted questions, team games, and genuine interaction.</p>
+                <div style="margin-top: 12px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 12px;">
+                    <p style="margin-bottom: 4px;" data-i18n="phase2_inv"><b>Your investment:</b> One evening</p>
+                    <p data-i18n="phase2_get"><b>What you get:</b> Meeting people who align with you.</p>
+                </div>
+            </div>
+            
+            <div class="card" style="height: fit-content;">
+                <h3 data-i18n="phase3_header"> <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 3</h3>
+                <h4 data-i18n="phase3_title">Explore Real Life Chemistry</h4>
+                <p data-i18n="phase3_desc">Meet your top 3 matches in person at a beautiful outdoor spot in your city. Structured adventurous walk-and-talks where you discover questions together, have fun opt-in dares and tackle the awkwardness together.</p>
+                <div style="margin-top: 12px; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 12px;">
+                    <p style="margin-bottom: 4px;" data-i18n="phase3_inv"><b>Your investment:</b> One afternoon</p>
+                    <p data-i18n="phase3_get"><b>What you get:</b> Meaningful dates with real potential.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <section class="container section-padding">
+        <div class="case-study">
+            <div class="cs-content">
+                <div class="btn-tag" data-i18n="promise_tag">Our Promise</div>
+                <h2 data-i18n="prom1_title">Your energy <span class="italic-serif">won't be</span> wasted</h2>
+                <p style="color: var(--text-muted); margin-top: 16px;" data-i18n="prom1_desc">Every hour you invest in this experience gives you something valuable.</p>
+                <ul style="margin-top: 16px; color: var(--text-muted);">
+                    <li style="margin-bottom: 8px;" data-i18n="prom1_li1"><b>If you find your person</b>, obviously life-changing! Worth everything.</li>
+                    <li style="margin-bottom: 8px;" data-i18n="prom1_li2"><b>If you meet interesting people but no spark</b>, you've practiced showing up authentically.</li>
+                    <li style="margin-bottom: 8px;" data-i18n="prom1_li3"><b>If you don't connect with anyone</b>, you've learned what matters to you in relationships.</li>
+                </ul>
+            </div>
+            <div class="cs-image">
+                <div class="phone-mockup">
+                    <img src="https://placehold.co/500x500/000/FFF?text=Your+time+matters." alt="Phone Mockup">
+                </div>
+            </div>
+        </div>
+
+        <div class="case-study reversed">
+            <div class="cs-content">
+                <div class="btn-tag" data-i18n="promise_tag">Our Promise</div>
+                <h2 data-i18n="prom2_title">We won't promise you <span class="italic-serif">miracles</span></h2>
+                <div style="margin-top: 24px;">
+                    <p style="margin-bottom: 8px;" data-i18n="prom2_p1"><b>We can't promise:</b></p>
+                    <ul style="color: var(--text-muted); margin-bottom: 24px;">
+                        <li data-i18n="prom2_li1">❌ You'll find the love of your life</li>
+                        <li data-i18n="prom2_li2">❌ You'll feel instant chemistry with everyone</li>
+                        <li data-i18n="prom2_li3">❌ Dating will suddenly become effortless</li>
+                    </ul>
+                    
+                    <p style="margin-bottom: 8px;" data-i18n="prom2_p2"><b>We promise:</b></p>
+                    <ul style="color: var(--text-muted);">
+                        <li data-i18n="prom2_li4">✅ To match you with people based on genuine compatibility</li>
+                        <li data-i18n="prom2_li5">✅ To create experiences where real connection can happen</li>
+                        <li data-i18n="prom2_li6">✅ To make every step of the journey meaningful</li>
+                        <li data-i18n="prom2_li7">✅ To never profit from keeping you lonely</li>
+                    </ul> 
+                </div>
+            </div>
+            <div class="cs-image">
+                <div class="phone-mockup">
+                    <img src="https://placehold.co/500x500/000/FFF?text=Let's+date+better." alt="Phone Mockup">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container section-padding" style="max-width: 800px;">
+        <h2 style="margin-bottom: 40px; text-align:center; font-size: 36px;" data-i18n="faq_title">Frequently Asked <span class="italic-serif">Questions</span></h2>
+        
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_1_q">When is this starting?</summary>
+                <p data-i18n="faq_1_a">We are launching the first cohort in mids of January 2026! We will let you know as soon as possible.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_2_q">What if I don't complete all 7 days?</summary>
+                <p data-i18n="faq_2_a">That's okay. Life happens. Your answers are saved and you can pick up where you left off or try again with the next cohort. We open then every 1–2 months.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_3_q">What if I complete the questions but don't like my matches?</summary>
+                <p data-i18n="faq_3_a">You see anonymous reports of your matches are before joining the online and in-person sessions. If they don't interest you, you can skip this cohort and try again next time, or just take the self-knowledge you gained.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_4_q">What kind of questions are we talking about??</summary>
+                <p data-i18n="faq_4_a">Deep ones. About your values, past relationships, family, what you're looking for, how you handle conflict, what makes you tick. Some are lighthearted, some are vulnerable. All are designed to reveal who you really are.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_5_q">How do you match people?</summary>
+                <p data-i18n="faq_5_a">Based on your answers and preferences. Every step is designed to help you and us make a better decision. Some questions work best when people align (values, life goals). Others work best when people complement each other (personality traits, strengths). You also tell us which topics matter most to you.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_6_q">What if I'm shy or introverted?</summary>
+                <p data-i18n="faq_6_a">Perfect. We designed this specifically so introverts can shine. Not everything rewards being loud. We include activities that value listening, observation, thoughtfulness or your analytical thinking, all introvert superpowers!</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_7_q">What happens if I can't make the event dates?</summary>
+                <p data-i18n="faq_7_a">Your answers are saved and you can join the next cohort's events. We run new cohorts every 1 – 2 months.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_8_q">Is this only for people looking for serious relationships?</summary>
+                <p data-i18n="faq_8_a">Yes. The 7-day commitment naturally filters for people who want something meaningful. If you're looking for casual dating, there are easier ways and BetterDates are not for you.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_9_q">What if I don't find anyone?</summary>
+                <p data-i18n="faq_9_a">Statistically unlikely if you answer honestly, but if it happens then you've invested time into understanding yourself better, trying something different and creating genuine connections. The entire process is designed so even if you don't find a partner it's still valuable for you.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_10_q">Can I bring a friend?</summary>
+                <p data-i18n="faq_10_a">Absolutely! You each go through the process independently, but it can be fun to do it alongside a friend.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary data-i18n="faq_11_q">What do I actually get from this?</summary>
+                <p data-i18n="faq_11_a">
+                    <ul>
+                        <li><b>Self-Knowledge:</b> The questions force you to articulate what you want, what you've learned, and what matters to you. This clarity changes everything, even outside of dating.</li>
+                        <li><b>Real Conversation Skills:</b> Practice showing up authentically, listening deeply, and connecting beyond surface level. These skills serve you forever.</li>
+                        <li><b>Genuine Connection:</b> Even if romantic matches don't work out, you'll meet thoughtful, self-aware people.</li>
+                        <li><b>Hope Restored:</b> This experience reminds you that good people exist and meaningful connection is possible.</li>
+                    </ul>
+                </p>
+            </details>
+        </div>
+    </section>
+
+    <section id="contact" class="container section-padding">
+        <div class="cta-box">
+            <h2 style="font-size: clamp(32px, 5vw, 56px); margin-bottom: 20px;" data-i18n="cta_title">Your better dating journey starts <span class="italic-serif">right now.</span></h2>
+            <p style="color: var(--text-muted); max-width: 500px; margin-left: auto; margin-right: auto;" data-i18n="cta_p1">
+                We can't guarantee you'll find love.</p>
+            <p style="color: var(--text-muted); margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;" data-i18n="cta_p2">
+                We can guarantee the journey will be worth it.</p>    
+            <h3 style="margin-bottom: 40px; font-weight: 500;" data-i18n="cta_h3">Because looking for love shouldn't make you hate dating.</h3>
+            <a href="#" class="btn" data-i18n="nav_cta">Join waitlist</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="font-size: 26px; font-weight: 600;">BetterDates</h4>
+                <p style="color: var(--text-muted);" data-i18n="footer_tagline">Dating done better.</p>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_nav">Navigate</h4>
+                <a href="#home" data-i18n="nav_home">Home</a>
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#services" data-i18n="nav_services">Services</a>
+                <a href="#blog" data-i18n="nav_blog">Blog</a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_connect">Connect</h4>
+                <a href="#" data-i18n="nav_cta">Join waitlist</a>
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+            </div>
+            <div class="footer-col">
+                <h4 data-i18n="footer_legal">Legal</h4>
+                <a href="#" data-i18n="footer_privacy">Privacy Policy</a>
+                <a href="#" data-i18n="footer_terms">Terms of Service</a>
+                <a href="#" data-i18n="footer_contact">Contact</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 60px; color: var(--text-muted); font-size: 14px;">
+            © 2025 BetterDates. Created by BetterDates.
+        </div>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_about: "About",
+                nav_services: "Services",
+                nav_blog: "Blog",
+                nav_cta: "Join waitlist",
+                hero_title: 'Dating done <span class="italic-serif">better.</span>',
+                hero_subtitle: "Forget meaningless swiping. One month program where you get to know yourself better, connect with genuine people and actually <i>enjoy</i> the process of finding your person.",
+                hero_cta: "Join waitlist",
+                services_title: 'Let\'s be honest. Dating apps <span class="italic-serif">suck</span>.',
+                s1_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> You\'ve tried all of the apps.',
+                s1_desc: "You've got stuck in a loop of endless swiping based on photo and creating meaningless connections. Every hour you spend there feels wasted.",
+                s2_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> You are tired of endless texting.',
+                s2_desc: '"Hey, what are you up to?" is a sentence you don\'t want to read ever again. Every text message only makes you feel more drained.',
+                s3_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> You are starting to lose hope.',
+                s3_desc: "It's seems like everyone around you is finding life-partners, getting married and you can't even get a chance for a normal date.",
+                mission_title: 'We\'ve created a <span class="italic-serif">dating experience</span> that doesn\'t make you want to <span class="italic-serif">quit</span>',
+                mission_p1: "<b>Our mission is simple: </b>Make the journey of finding your person something you look back on fondly. Not something that drains your soul.",
+                mission_p2: "We can't guarantee you'll meet the love of your life. No one can.",
+                mission_p3: "But we can guarantee that process will build you up, not tear you down and every step will be meaningful.",
+                mission_bold: "<b>Because looking for love shouldn't make you hate dating.</b>",
+                reality_tag: "Reality check",
+                rc1_title: '70% of users report feeling more <span class="italic-serif">lonely</span> after using dating apps',
+                rc1_desc: "On avarage people spends 90 minutes per day swiping with only 1% chance of meeting someone.",
+                rc2_title: 'Only 10% of matches lead to actual <span class="italic-serif">conversations</span>',
+                rc2_desc: "When they actually meet someone, they're meeting based on photos. Not compatibility. No values, just appearence.",
+                comp_title: 'Why choose BetterDates over <span class="italic-serif">dating app</span>?',
+                comp_apps_title: "Dating Apps",
+                comp_app_1: '<span class="comp-icon">✖</span> You meet based on looks',
+                comp_app_2: '<span class="comp-icon">✖</span> Leave you feeling drained',
+                comp_app_3: '<span class="comp-icon">✖</span> Optimized for one-night stands',
+                comp_app_4: '<span class="comp-icon">✖</span> Lead to endless texting',
+                comp_bd_title: "BetterDates Program",
+                comp_bd_1: '<span class="comp-icon">✔</span> <b>You meet based on values</b>',
+                comp_bd_2: '<span class="comp-icon">✔</span> <b>Build you up and give you clarity</b>',
+                comp_bd_3: '<span class="comp-icon">✔</span> <b>For people seeking genuine partnership</b>',
+                comp_bd_4: '<span class="comp-icon">✔</span> <b>Leads to real-life connection</b>',
+                hiw_title: 'How it <span class="italic-serif">works</span>?',
+                phase1_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 1',
+                phase1_title: "Deep Self-Discovery",
+                phase1_desc: "Answer anonymously 10 carefully designed questions and evaluate answers of others every day for 7 days. These aren't small talk. They're about your values, your past, what you want, how you love, what scares you, what lights you up.",
+                phase1_inv: "<b>Your investment:</b> 20 minutes a day",
+                phase1_get: "<b>What you get:</b> Clarity about yourself.",
+                phase2_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 2',
+                phase2_title: "Online Voice Connection",
+                phase2_desc: "Meet your 5 most compatible matches in a facilitated online evening. Cameras off, voices on. No pressure about how you look. Just real conversation, lighthearted questions, team games, and genuine interaction.",
+                phase2_inv: "<b>Your investment:</b> One evening",
+                phase2_get: "<b>What you get:</b> Meeting people who align with you.",
+                phase3_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> PHASE 3',
+                phase3_title: "Explore Real Life Chemistry",
+                phase3_desc: "Meet your top 3 matches in person at a beautiful outdoor spot in your city. Structured adventurous walk-and-talks where you discover questions together, have fun opt-in dares and tackle the awkwardness together.",
+                phase3_inv: "<b>Your investment:</b> One afternoon",
+                phase3_get: "<b>What you get:</b> Meaningful dates with real potential.",
+                promise_tag: "Our Promise",
+                prom1_title: 'Your energy <span class="italic-serif">won\'t be</span> wasted',
+                prom1_desc: "Every hour you invest in this experience gives you something valuable.",
+                prom1_li1: "<b>If you find your person</b>, obviously life-changing! Worth everything.",
+                prom1_li2: "<b>If you meet interesting people but no spark</b>, you've practiced showing up authentically.",
+                prom1_li3: "<b>If you don't connect with anyone</b>, you've learned what matters to you in relationships.",
+                prom2_title: 'We won\'t promise you <span class="italic-serif">miracles</span>',
+                prom2_p1: "<b>We can't promise:</b>",
+                prom2_li1: "❌ You'll find the love of your life",
+                prom2_li2: "❌ You'll feel instant chemistry with everyone",
+                prom2_li3: "❌ Dating will suddenly become effortless",
+                prom2_p2: "<b>We promise:</b>",
+                prom2_li4: "✅ To match you with people based on genuine compatibility",
+                prom2_li5: "✅ To create experiences where real connection can happen",
+                prom2_li6: "✅ To make every step of the journey meaningful",
+                prom2_li7: "✅ To never profit from keeping you lonely",
+                faq_title: 'Frequently Asked <span class="italic-serif">Questions</span>',
+                faq_1_q: "When is this starting?",
+                faq_1_a: "We are launching the first cohort in mids of January 2026! We will let you know as soon as possible.",
+                faq_2_q: "What if I don't complete all 7 days?",
+                faq_2_a: "That's okay. Life happens. Your answers are saved and you can pick up where you left off or try again with the next cohort. We open then every 1–2 months.",
+                faq_3_q: "What if I complete the questions but don't like my matches?",
+                faq_3_a: "You see anonymous reports of your matches are before joining the online and in-person sessions. If they don't interest you, you can skip this cohort and try again next time, or just take the self-knowledge you gained.",
+                faq_4_q: "What kind of questions are we talking about??",
+                faq_4_a: "Deep ones. About your values, past relationships, family, what you're looking for, how you handle conflict, what makes you tick. Some are lighthearted, some are vulnerable. All are designed to reveal who you really are.",
+                faq_5_q: "How do you match people?",
+                faq_5_a: "Based on your answers and preferences. Every step is designed to help you and us make a better decision. Some questions work best when people align (values, life goals). Others work best when people complement each other (personality traits, strengths). You also tell us which topics matter most to you.",
+                faq_6_q: "What if I'm shy or introverted?",
+                faq_6_a: "Perfect. We designed this specifically so introverts can shine. Not everything rewards being loud. We include activities that value listening, observation, thoughtfulness or your analytical thinking, all introvert superpowers!",
+                faq_7_q: "What happens if I can't make the event dates?",
+                faq_7_a: "Your answers are saved and you can join the next cohort's events. We run new cohorts every 1 – 2 months.",
+                faq_8_q: "Is this only for people looking for serious relationships?",
+                faq_8_a: "Yes. The 7-day commitment naturally filters for people who want something meaningful. If you're looking for casual dating, there are easier ways and BetterDates are not for you.",
+                faq_9_q: "What if I don't find anyone?",
+                faq_9_a: "Statistically unlikely if you answer honestly, but if it happens then you've invested time into understanding yourself better, trying something different and creating genuine connections. The entire process is designed so even if you don't find a partner it's still valuable for you.",
+                faq_10_q: "Can I bring a friend?",
+                faq_10_a: "Absolutely! You each go through the process independently, but it can be fun to do it alongside a friend.",
+                faq_11_q: "What do I actually get from this?",
+                faq_11_a: "<ul><li><b>Self-Knowledge:</b> The questions force you to articulate what you want, what you've learned, and what matters to you. This clarity changes everything, even outside of dating.</li><li><b>Real Conversation Skills:</b> Practice showing up authentically, listening deeply, and connecting beyond surface level. These skills serve you forever.</li><li><b>Genuine Connection:</b> Even if romantic matches don't work out, you'll meet thoughtful, self-aware people.</li><li><b>Hope Restored:</b> This experience reminds you that good people exist and meaningful connection is possible.</li></ul>",
+                cta_title: 'Your better dating journey starts <span class="italic-serif">right now.</span>',
+                cta_p1: "We can't guarantee you'll find love.",
+                cta_p2: "We can guarantee the journey will be worth it.",
+                cta_h3: "Because looking for love shouldn't make you hate dating.",
+                footer_tagline: "Dating done better.",
+                footer_nav: "Navigate",
+                footer_connect: "Connect",
+                footer_legal: "Legal",
+                footer_privacy: "Privacy Policy",
+                footer_terms: "Terms of Service",
+                footer_contact: "Contact"
+            },
+            cs: {
+                nav_home: "Domů",
+                nav_about: "O nás",
+                nav_services: "Služby",
+                nav_blog: "Blog",
+                nav_cta: "Přidat se na čekací listinu",
+                hero_title: 'Seznamování, prostě <span class="italic-serif">lepší.</span>',
+                hero_subtitle: "Zapomeňte na bezduché swipování. Měsíční program, kde poznejte sami sebe lépe, spojíte se se skutečnými lidmi a <i>užijete si</i> proces hledání partnera.",
+                hero_cta: "Přidat se na čekací listinu",
+                services_title: 'Buďme upřímní. Seznamky <span class="italic-serif">stojí za nic</span>.',
+                s1_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> Vyzkoušeli jste všechny aplikace.',
+                s1_desc: "Uvízli jste ve smyčce nekonečného swipeování podle fotek a vytváření povrchních spojení. Každá hodina tam strávená působí jako ztráta času.",
+                s2_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> Už vás nebaví nekonečné psaní.',
+                s2_desc: '„Ahoj, jak se máš?“ je věta, kterou už nechcete číst. Každá další zpráva vás jen víc vyčerpává.',
+                s3_title: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> Začínáte ztrácet naději.',
+                s3_desc: "Zdá se, že všichni kolem vás nacházejí životní partnery, berou se, a vy nemůžete dostat ani šanci na normální rande.",
+                mission_title: 'Vytvořili jsme <span class="italic-serif">zážitek</span>, po kterém to nebudete chtít <span class="italic-serif">vzdát</span>',
+                mission_p1: "<b>Naše mise je jednoduchá: </b>Udělat z cesty za hledáním partnera něco, na co budete vzpomínat s láskou. Ne něco, co vám vysává duši.",
+                mission_p2: "Nemůžeme zaručit, že potkáte lásku svého života. To nemůže nikdo.",
+                mission_p3: "Ale můžeme zaručit, že vás tento proces posílí, ne srazí na kolena, a každý krok bude mít smysl.",
+                mission_bold: "<b>Protože hledání lásky by nemělo znamenat, že budete nenávidět randění.</b>",
+                reality_tag: "Realita",
+                rc1_title: '70 % uživatelů se po použití seznamek cítí <span class="italic-serif">osaměleji</span>',
+                rc1_desc: "Průměrný člověk stráví 90 minut denně swipeováním s pouze 1% šancí, že někoho potká.",
+                rc2_title: 'Pouze 10 % shod vede ke skutečné <span class="italic-serif">konverzaci</span>',
+                rc2_desc: "Když už někoho potkají, setkávají se na základě fotek. Ne kompatibility. Žádné hodnoty, jen vzhled.",
+                comp_title: 'Proč zvolit BetterDates místo <span class="italic-serif">aplikace</span>?',
+                comp_apps_title: "Seznamovací Aplikace",
+                comp_app_1: '<span class="comp-icon">✖</span> Setkáváte se na základě vzhledu',
+                comp_app_2: '<span class="comp-icon">✖</span> Cítíte se vyčerpaní',
+                comp_app_3: '<span class="comp-icon">✖</span> Optimalizováno pro jednorázovky',
+                comp_app_4: '<span class="comp-icon">✖</span> Vede k nekonečnému psaní',
+                comp_bd_title: "Program BetterDates",
+                comp_bd_1: '<span class="comp-icon">✔</span> <b>Setkáváte se na základě hodnot</b>',
+                comp_bd_2: '<span class="comp-icon">✔</span> <b>Posílí vás a dodá jasnost</b>',
+                comp_bd_3: '<span class="comp-icon">✔</span> <b>Pro lidi hledající skutečné partnerství</b>',
+                comp_bd_4: '<span class="comp-icon">✔</span> <b>Vede k reálnému propojení</b>',
+                hiw_title: 'Jak to <span class="italic-serif">funguje</span>?',
+                phase1_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> FÁZE 1',
+                phase1_title: "Hluboké sebepoznání",
+                phase1_desc: "Odpovídejte anonymně na 10 pečlivě navržených otázek a hodnoťte odpovědi ostatních každý den po dobu 7 dnů. Žádné tlachání. Jde o vaše hodnoty, minulost, co chcete, jak milujete, čeho se bojíte, co vás naplňuje.",
+                phase1_inv: "<b>Vaše investice:</b> 20 minut denně",
+                phase1_get: "<b>Co získáte:</b> Jasnost o sobě samých.",
+                phase2_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> FÁZE 2',
+                phase2_title: "Online hlasové propojení",
+                phase2_desc: "Setkejte se s 5 nejkompatibilnějšími protějšky během moderovaného online večera. Kamery vypnuté, hlasy zapnuté. Žádný tlak na vzhled. Jen skutečná konverzace, odlehčené otázky, týmové hry a upřímná interakce.",
+                phase2_inv: "<b>Vaše investice:</b> Jeden večer",
+                phase2_get: "<b>Co získáte:</b> Setkání s lidmi, kteří s vámi souzní.",
+                phase3_header: ' <svg width="24" height="24" viewBox="0 0 24 24" fill="black"><rect x="4" y="4" width="16" height="16" rx="8"/></svg> FÁZE 3',
+                phase3_title: "Objevování chemie naživo",
+                phase3_desc: "Setkejte se se svými top 3 protějšky osobně na krásném venkovním místě ve vašem městě. Strukturované dobrodružné procházky, kde společně objevujete otázky, plníte dobrovolné úkoly a společně překonáváte trapnost.",
+                phase3_inv: "<b>Vaše investice:</b> Jedno odpoledne",
+                phase3_get: "<b>Co získáte:</b> Smysluplná rande se skutečným potenciálem.",
+                promise_tag: "Náš Slib",
+                prom1_title: 'Vaše energie <span class="italic-serif">nebude</span> promarněna',
+                prom1_desc: "Každá hodina, kterou do tohoto zážitku investujete, vám dá něco cenného.",
+                prom1_li1: "<b>Pokud najdete svého člověka</b>, změní vám to život! Stojí to za všechno.",
+                prom1_li2: "<b>Pokud potkáte zajímavé lidi, ale nepřeskočí jiskra</b>, procvičíte si autenticitu.",
+                prom1_li3: "<b>Pokud se s nikým nespojíte</b>, zjistíte, na čem vám ve vztazích záleží.",
+                prom2_title: 'Neslíbíme vám <span class="italic-serif">zázraky</span>',
+                prom2_p1: "<b>Nemůžeme slíbit:</b>",
+                prom2_li1: "❌ Že najdete lásku svého života",
+                prom2_li2: "❌ Že ucítíte okamžitou chemii s každým",
+                prom2_li3: "❌ Že randění bude najednou bez námahy",
+                prom2_p2: "<b>Slibujeme:</b>",
+                prom2_li4: "✅ Že vás propojíme na základě skutečné kompatibility",
+                prom2_li5: "✅ Že vytvoříme zážitky, kde může vzniknout skutečné spojení",
+                prom2_li6: "✅ Že každý krok cesty bude mít smysl",
+                prom2_li7: "✅ Že nikdy nebudeme vydělávat na vaší osamělosti",
+                faq_title: 'Často kladené <span class="italic-serif">dotazy</span>',
+                faq_1_q: "Kdy to začíná?",
+                faq_1_a: "První skupinu spouštíme v polovině ledna 2026! Dáme vám vědět co nejdříve.",
+                faq_2_q: "Co když nedokončím všech 7 dní?",
+                faq_2_a: "To nevadí. Život se děje. Vaše odpovědi jsou uloženy a můžete navázat tam, kde jste skončili, nebo to zkusit znovu s další skupinou. Otevíráme je každé 1–2 měsíce.",
+                faq_3_q: "Co když dokončím otázky, ale nebudou se mi líbit mé shody?",
+                faq_3_a: "Před připojením k online a osobním setkáním uvidíte anonymní reporty svých shod. Pokud vás nezaujmou, můžete tuto skupinu vynechat a zkusit to příště, nebo si jen odnést získané sebepoznání.",
+                faq_4_q: "O jakých otázkách se bavíme?",
+                faq_4_a: "O hlubokých. O vašich hodnotách, minulých vztazích, rodině, co hledáte, jak řešíte konflikty, co vás pohání. Některé jsou odlehčené, některé zranitelné. Všechny jsou navrženy tak, aby odhalily, kdo skutečně jste.",
+                faq_5_q: "Jak lidi propojujete?",
+                faq_5_a: "Na základě vašich odpovědí a preferencí. Každý krok je navržen tak, aby vám i nám pomohl udělat lepší rozhodnutí. Některé otázky fungují nejlépe, když se lidé shodují (hodnoty, životní cíle). Jiné fungují nejlépe, když se doplňují (osobnostní rysy, silné stránky). Také nám řeknete, která témata jsou pro vás nejdůležitější.",
+                faq_6_q: "Co když jsem stydlivý/á nebo introvert?",
+                faq_6_a: "Perfektní. Navrhli jsme to speciálně tak, aby introverti mohli zářit. Ne všechno odměňuje ty nejhlasitější. Zahrnujeme aktivity, které oceňují naslouchání, pozorování, přemýšlivost nebo vaše analytické myšlení – všechno superschopnosti introvertů!",
+                faq_7_q: "Co se stane, když nemůžu v termínech akcí?",
+                faq_7_a: "Vaše odpovědi se uloží a můžete se připojit k akcím další skupiny. Nové skupiny spouštíme každé 1–2 měsíce.",
+                faq_8_q: "Je to jen pro lidi hledající vážný vztah?",
+                faq_8_a: "Ano. Závazek na 7 dní přirozeně filtruje lidi, kteří chtějí něco smysluplného. Pokud hledáte nezávazné randění, existují jednodušší způsoby a BetterDates nejsou pro vás.",
+                faq_9_q: "Co když nikoho nenajdu?",
+                faq_9_a: "Statisticky nepravděpodobné, pokud odpovídáte upřímně, ale pokud se to stane, investovali jste čas do lepšího pochopení sebe sama, vyzkoušení něčeho jiného a vytvoření skutečných spojení. Celý proces je navržen tak, aby byl pro vás cenný, i když partnera nenajdete.",
+                faq_10_q: "Můžu vzít kamaráda/kamarádku?",
+                faq_10_a: "Rozhodně! Každý procházíte procesem nezávisle, ale může být zábavné to dělat společně s přítelem.",
+                faq_11_q: "Co z toho vlastně budu mít?",
+                faq_11_a: "<ul><li><b>Sebepoznání:</b> Otázky vás nutí formulovat, co chcete, co jste se naučili a na čem vám záleží. Tato jasnost mění vše, i mimo randění.</li><li><b>Skutečné komunikační dovednosti:</b> Procvičíte si autenticitu, hluboké naslouchání a spojení pod povrchem. Tyto dovednosti vám poslouží navždy.</li><li><b>Skutečné spojení:</b> I když to romanticky nevyjde, potkáte přemýšlivé, sebevědomé lidi.</li><li><b>Obnovená naděje:</b> Tato zkušenost vám připomene, že dobří lidé existují a smysluplné spojení je možné.</li></ul>",
+                cta_title: 'Vaše lepší cesta randěním začíná <span class="italic-serif">právě teď.</span>',
+                cta_p1: "Nemůžeme zaručit, že najdete lásku.",
+                cta_p2: "Můžeme zaručit, že ta cesta bude stát za to.",
+                cta_h3: "Protože hledání lásky by nemělo znamenat, že budete nenávidět randění.",
+                footer_tagline: "Randění, prostě lepší.",
+                footer_nav: "Navigace",
+                footer_connect: "Spojit se",
+                footer_legal: "Právní",
+                footer_privacy: "Zásady ochrany osobních údajů",
+                footer_terms: "Podmínky služby",
+                footer_contact: "Kontakt"
+            }
+        };
+
+        const toggleBtn = document.getElementById('lang-toggle');
+        let currentLang = 'en';
+
+        toggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'cs' : 'en';
+            toggleBtn.textContent = currentLang === 'en' ? 'CS' : 'EN';
+
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key];
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
